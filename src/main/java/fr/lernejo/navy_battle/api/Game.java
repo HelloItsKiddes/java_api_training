@@ -21,5 +21,6 @@ public class Game {
         HttpClient sendWeb = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(JsonAdverse.url.substring(1, JsonAdverse.url.length() - 1) + "/api/game/fire?cell=B2"))
             .setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET().build();
+        HttpResponse<String> response = sendWeb.send(request, HttpResponse.BodyHandlers.ofString());
     }
 }
