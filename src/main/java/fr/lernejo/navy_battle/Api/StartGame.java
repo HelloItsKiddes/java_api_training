@@ -8,7 +8,6 @@ import com.sun.net.httpserver.HttpHandler;
 import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 public class StartGame implements HttpHandler {
 
     private final StringBuilder URL = new StringBuilder();
@@ -33,13 +32,16 @@ public class StartGame implements HttpHandler {
     private JacksonJson parser(HttpExchange hExchange) throws IOException {
         JacksonJson requete = null;
         ObjectMapper mapper = new ObjectMapper();
-
         String streamString = convertToString(hExchange.getRequestBody());
         if (streamString.isBlank()) {
             return null;
         }
         else {
-            requete = mapper.readValue(streamString, JacksonJson.class);
+            try {requete = mapper.readValue(streamString, JacksonJson.class);}
+            catch (IllegalArgumentException e) {
+                hExchange.sendResponseHeaders(400, "Not Found !".length());
+                throw new IllegalArgumentException();
+            }
         }
         return requete;
     }
