@@ -29,6 +29,17 @@ public class StartGame implements HttpHandler {
             e.printStackTrace();
         }
     }
+
+    private String convertToString(InputStream str) throws IOException {
+
+        int compteur;
+        StringBuilder stream = new StringBuilder();
+        while ((compteur = str.read()) > 0) {
+            stream.append((char) compteur);
+        }
+        return stream.toString();
+    }
+
     private JacksonJson parser(HttpExchange hExchange) throws IOException {
         JacksonJson requete = null;
         ObjectMapper mapper = new ObjectMapper();
@@ -40,16 +51,6 @@ public class StartGame implements HttpHandler {
             hExchange.sendResponseHeaders(400, "Not Found !".length());
         }
         return requete;
-    }
-
-    private String convertToString(InputStream str) throws IOException {
-
-        int compteur;
-        StringBuilder stream = new StringBuilder();
-        while ((compteur = str.read()) > 0) {
-            stream.append((char) compteur);
-        }
-        return stream.toString();
     }
 
     private void resultMessage(HttpExchange exchange, String message, int codeReq) throws IOException {
