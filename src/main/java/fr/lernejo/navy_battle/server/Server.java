@@ -1,4 +1,4 @@
-package fr.lernejo.navy_battle.launch;
+package fr.lernejo.navy_battle.server;
 import com.sun.net.httpserver.HttpServer;
 import fr.lernejo.navy_battle.api.Ping;
 import fr.lernejo.navy_battle.api.StartGame;
