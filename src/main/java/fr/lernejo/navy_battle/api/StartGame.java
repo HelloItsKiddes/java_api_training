@@ -18,39 +18,42 @@ public class StartGame implements HttpHandler {
 
     @Override
     public void handle(HttpExchange hExchange) throws IOException {
-        JacksonJson reqBody = parser(hExchange);
-        if (reqBody == null || reqBody.id.equals("\"\"") || reqBody.message.equals("\"\"") || reqBody.url.equals("\"\"")  ) {
-            resultMessage(hExchange, "Erreur de formattage", 400);}
-        else {resultMessage(hExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"C'est partit\"\n}", 202);}
-        Game party = new Game(reqBody, reqBody);
-        try {
-            party.startNewGame();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (!hExchange.getRequestMethod().equals("POST")) {
+            System.out.println("Error");
+        }
+        else {
+            JacksonJson reqBody = parser(hExchange);
+            if (reqBody == null || reqBody.id.equals("\"\"") || reqBody.message.equals("\"\"") || reqBody.url.equals("\"\"")  ) {
+                resultMessage(hExchange, "Erreur de formattage", 400);}
+            else {resultMessage(hExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"C'est partit\"\n}", 202);}
+            var party = new Game(reqBody, reqBody);
+            try {party.startNewGame();} catch (InterruptedException e) {e.printStackTrace();}
         }
     }
-
-    private String convertToString(InputStream str) throws IOException {
-
-        int compteur;
-        StringBuilder stream = new StringBuilder();
-        while ((compteur = str.read()) > 0) {
-            stream.append((char) compteur);
-        }
-        return stream.toString();
-    }
-
     private JacksonJson parser(HttpExchange hExchange) throws IOException {
         JacksonJson requete = null;
         ObjectMapper mapper = new ObjectMapper();
         String streamString = convertToString(hExchange.getRequestBody());
-        try {
-            requete = mapper.readValue(streamString, JacksonJson.class);
+        if (streamString.isBlank()) {
+            return null;
         }
-        catch (IllegalArgumentException e) {
-            hExchange.sendResponseHeaders(400, "Not Found !".length());
+        else {
+            try {requete = mapper.readValue(streamString, JacksonJson.class);}
+            catch (IllegalArgumentException e) {
+                hExchange.sendResponseHeaders(400, "Not Found !".length());
+                throw new IllegalArgumentException();
+            }
         }
         return requete;
+    }
+
+    private String convertToString(InputStream str) throws IOException {
+        StringBuilder stream = new StringBuilder();
+        int i;
+        while ((i = str.read()) > 0) {
+            stream.append((char) i);
+        }
+        return stream.toString();
     }
 
     private void resultMessage(HttpExchange exchange, String message, int codeReq) throws IOException {
@@ -59,6 +62,5 @@ public class StartGame implements HttpHandler {
             os.write(message.getBytes());
         }
     }
-
 
 }
