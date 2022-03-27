@@ -1,0 +1,22 @@
+package fr.lernejo.navy_battle.Api;
+import java.io.IOException;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
+import java.net.URI;
+import java.net.http.HttpRequest;
+
+
+public class Game {
+    public final JacksonJson JsonAdverse;
+    public final JacksonJson MonJson;
+    public Game(JacksonJson BodyEnnReq, JacksonJson MaReq) {
+        this.MonJson = MaReq;
+        this.JsonAdverse = BodyEnnReq;
+    }
+    public void startGame() throws IOException, InterruptedException {
+        HttpClient web = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(JsonAdverse.url.substring(1, JsonAdverse.url.length() - 1) + "/api/game/fire?cell=B2"))
+            .setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET().build();
+        HttpResponse<String> response = web.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+}
