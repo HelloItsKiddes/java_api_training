@@ -13,7 +13,7 @@ public class Game {
         this.MonJson = MaReq;
         this.JsonAdverse = BodyEnnReq;
     }
-    public void startGame() throws IOException, InterruptedException {
+    public void startNewGame() throws IOException, InterruptedException {
         HttpClient web = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(JsonAdverse.url.substring(1, JsonAdverse.url.length() - 1) + "/api/game/fire?cell=B2"))
             .setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET().build();

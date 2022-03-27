@@ -24,17 +24,10 @@ public class StartGame implements HttpHandler {
         else {
             JacksonJson reqBody = parser(hExchange);
             if (reqBody == null || reqBody.id.equals("\"\"") || reqBody.message.equals("\"\"") || reqBody.url.equals("\"\"")  ) {
-                resultMessage(hExchange, "Erreur de formattage", 400);
-            }
-            else {
-                resultMessage(hExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"C'est partit\"\n}", 202);
-            }
+                resultMessage(hExchange, "Erreur de formattage", 400);}
+            else {resultMessage(hExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"C'est partit\"\n}", 202);}
             var party = new Game(reqBody, reqBody);
-            try {
-                party.startGame();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            try {party.startNewGame();} catch (InterruptedException e) {e.printStackTrace();}
         }
     }
     private JacksonJson parser(HttpExchange hExchange) throws IOException {
