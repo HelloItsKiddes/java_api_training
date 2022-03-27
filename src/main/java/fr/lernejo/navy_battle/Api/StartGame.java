@@ -18,7 +18,7 @@ public class StartGame implements HttpHandler {
     @Override
     public void handle(HttpExchange hExchange) throws IOException {
         if (!hExchange.getRequestMethod().equals("POST")) {
-            sendError(hExchange);
+            System.out.println("Error");
         }
         else {
             JacksonJson reqBody = parser(hExchange);
@@ -62,11 +62,4 @@ public class StartGame implements HttpHandler {
         }
     }
 
-    private void sendError(HttpExchange exchange) throws IOException {
-        String body = "Erreur : Rien reçu";
-        exchange.sendResponseHeaders(404, body.length());
-        try (OutputStream os = exchange.getResponseBody()) {
-            os.write(body.getBytes());
-        }
-    }
 }

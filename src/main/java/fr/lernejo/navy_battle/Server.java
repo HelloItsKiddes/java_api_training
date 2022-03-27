@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    final HttpServer server;
+    public final HttpServer server;
 
     public Server(int port) throws IOException {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
