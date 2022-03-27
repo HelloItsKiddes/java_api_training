@@ -15,5 +15,6 @@ public class PostHandler {
             .setHeader("Accept", "application/json").setHeader("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + port + "\", \"message\":\"Que le meilleure gagne!\"}")).build();
         HttpResponse<String> result = sendWeb.send(postReq, HttpResponse.BodyHandlers.ofString());
+
     }
 }
