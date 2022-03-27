@@ -1,4 +1,6 @@
-package fr.lernejo.navy_battle.Api;
+package fr.lernejo.navy_battle.api;
+
+import fr.lernejo.navy_battle.json.JacksonJson;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -16,9 +18,9 @@ public class Game {
     }
 
     public void startNewGame() throws IOException, InterruptedException {
-        HttpClient web = HttpClient.newHttpClient();
+        HttpClient sendWeb = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(JsonAdverse.url.substring(1, JsonAdverse.url.length() - 1) + "/api/game/fire?cell=B2"))
             .setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET().build();
-        HttpResponse<String> response = web.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = sendWeb.send(request, HttpResponse.BodyHandlers.ofString());
     }
 }

@@ -1,15 +1,12 @@
-package fr.lernejo.navy_battle;
-
+package fr.lernejo.navy_battle.launch;
 import com.sun.net.httpserver.HttpServer;
-import fr.lernejo.navy_battle.Api.Ping;
-import fr.lernejo.navy_battle.Api.StartGame;
-
+import fr.lernejo.navy_battle.api.Ping;
+import fr.lernejo.navy_battle.api.StartGame;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
 public class Server {
-
     final HttpServer server;
 
     public Server(int port) throws IOException {
