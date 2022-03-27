@@ -1,4 +1,4 @@
-package fr.lernejo.navy_battle.json;
+package fr.lernejo.navy_battle;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;

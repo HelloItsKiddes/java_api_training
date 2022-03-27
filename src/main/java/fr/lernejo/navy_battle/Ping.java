@@ -1,10 +1,10 @@
-package fr.lernejo.navy_battle.api;
+package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.IOException;
 import java.io.OutputStream;
+
 
 public class Ping implements HttpHandler {
 

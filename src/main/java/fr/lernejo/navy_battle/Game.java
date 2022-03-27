@@ -1,6 +1,4 @@
-package fr.lernejo.navy_battle.api;
-
-import fr.lernejo.navy_battle.json.JacksonJson;
+package fr.lernejo.navy_battle;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
