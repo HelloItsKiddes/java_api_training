@@ -22,9 +22,7 @@ public class StartGame implements HttpHandler {
             if (reqBody.url.equals("\"\"") || reqBody.id.equals("\"\"") || reqBody.message.equals("\"\"") || reqBody == null) {
                 resultMess(httpExchange, "Erreur : Pas le bon format", 400);
             }
-            else {
-                resultMess(httpExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"C'est partit\"\n}", 202);
-            }
+            else {resultMess(httpExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"test\"\n}", 202);}
             Game party = new Game(reqBody, reqBody);
             try { party.startNewGame(); } catch (InterruptedException e) { e.printStackTrace(); }
         }
@@ -53,16 +51,10 @@ public class StartGame implements HttpHandler {
         String streamString = toStringStream(httpExchange.getRequestBody());
         ObjectMapper mapper = new ObjectMapper();
 
-        if (streamString.isBlank()) {
-            return null;
-        }
-        else {
-            try {
-                json = mapper.readValue(streamString, JacksonJson.class);
-            } catch (IllegalArgumentException e) {
-                httpExchange.sendResponseHeaders(404, "Not Found !".length());
-            }
-        }
+        try {
+            json = mapper.readValue(streamString, JacksonJson.class);
+        } catch (IllegalArgumentException e) {httpExchange.sendResponseHeaders(404, "Not Found !".length());}
+
         return json;
     }
 

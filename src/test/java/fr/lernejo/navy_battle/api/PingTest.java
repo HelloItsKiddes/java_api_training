@@ -15,10 +15,11 @@ class PingTest {
     @Test
     void testOfPing() throws IOException, InterruptedException {
 
-        new Server(9798);
-        HttpClient client = HttpClient.newHttpClient();
+        Server serv = new Server(9798);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:9798/ping")).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpClient client = HttpClient.newHttpClient();
+        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Assertions.assertEquals("http://localhost:9798/ping GET",request.toString());
         Assertions.assertEquals(200, response.statusCode());
         Assertions.assertEquals("OK", response.body());
     }
