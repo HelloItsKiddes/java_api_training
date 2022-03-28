@@ -50,7 +50,6 @@ public class StartGame implements HttpHandler {
         JacksonJson json = null;
         String streamString = toStringStream(httpExchange.getRequestBody());
         ObjectMapper mapper = new ObjectMapper();
-
         try {
             json = mapper.readValue(streamString, JacksonJson.class);
         } catch (IllegalArgumentException e) {httpExchange.sendResponseHeaders(404, "Not Found !".length());}
