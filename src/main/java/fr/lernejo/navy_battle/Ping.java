@@ -5,9 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
 public class Ping implements HttpHandler {
-
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String body = "OK";
