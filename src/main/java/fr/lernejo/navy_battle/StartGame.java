@@ -25,7 +25,7 @@ public class StartGame implements HttpHandler {
             else {
                 resultMess(httpExchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"C'est partit\"\n}", 202);
             }
-            var party = new Game(reqBody, reqBody);
+            Game party = new Game(reqBody, reqBody);
             try { party.startNewGame(); } catch (InterruptedException e) { e.printStackTrace(); }
         }
     }
@@ -35,10 +35,10 @@ public class StartGame implements HttpHandler {
     }
 
     private void errorMess(HttpExchange exchange) throws IOException {
-        String body = "Not Found !";
-        exchange.sendResponseHeaders(404, body.length());
+        String messageErr = "Not Found !";
+        exchange.sendResponseHeaders(404, messageErr.length());
         try (OutputStream os = exchange.getResponseBody()) {
-            os.write(body.getBytes());
+            os.write(messageErr.getBytes());
 
         }
     }
@@ -49,28 +49,30 @@ public class StartGame implements HttpHandler {
         }
     }
     private JacksonJson parser(HttpExchange httpExchange) throws IOException {
-        JacksonJson body = null;
-        ObjectMapper mapper = new ObjectMapper();
+        JacksonJson json = null;
         String streamString = toStringStream(httpExchange.getRequestBody());
+        ObjectMapper mapper = new ObjectMapper();
+
         if (streamString.isBlank()) {
             return null;
         }
         else {
             try {
-                body = mapper.readValue(streamString, JacksonJson.class);
+                json = mapper.readValue(streamString, JacksonJson.class);
             } catch (IllegalArgumentException e) {
-                httpExchange.sendResponseHeaders(400, "Not Found !".length());
+                httpExchange.sendResponseHeaders(404, "Not Found !".length());
             }
         }
-        return body;
+        return json;
     }
 
 
 
     private String toStringStream(InputStream str) throws IOException {
-        int compteur;
+        int compteur=1;
         StringBuilder stream = new StringBuilder();
-        while ((compteur = str.read()) > 0) {
+        while (compteur>0){
+            compteur = str.read();
             stream.append((char) compteur);
         }
         return stream.toString();
